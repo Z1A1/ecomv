@@ -21,10 +21,7 @@ const ProductCard = ({ item }) => {
       <TouchableOpacity
         style={styles.heartBtn}
         activeOpacity={0.7}
-        onPress={() => {
-          dispatch(addToBag(item));
-          setLiked(true);
-        }}>
+        onPress={() => setLiked(prev => !prev)}>
         <Text style={[styles.heart, liked && styles.heartLiked]}>
           {liked ? '♥' : '♡'}
         </Text>
@@ -44,20 +41,17 @@ const ProductCard = ({ item }) => {
         <Text style={styles.description} numberOfLines={2}>
           {item?.description}
         </Text>
-        <View style={styles.metaRow}>
-          <View style={styles.priceRow}>
-            <Text style={styles.price}>{formatPrice(item?.price)}</Text>
-            <Text style={styles.originalPrice}>₹{originalPrice}</Text>
-            <Text style={styles.discount}>{discountPct}% OFF</Text>
-          </View>
-          <TouchableOpacity
-            style={styles.tryBuyBtn}
-            hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
-            activeOpacity={0.75}
-            onPress={() => dispatch(addToBag(item))}>
-            <Text style={styles.tryBuyText}>Add to Bag</Text>
-          </TouchableOpacity>
+        <View style={styles.priceRow}>
+          <Text style={styles.price}>{formatPrice(item?.price)}</Text>
+          <Text style={styles.originalPrice}>₹{originalPrice}</Text>
+          <Text style={styles.discount}>{discountPct}% OFF</Text>
         </View>
+        <TouchableOpacity
+          style={styles.addBtn}
+          activeOpacity={0.8}
+          onPress={() => dispatch(addToBag(item))}>
+          <Text style={styles.addBtnText}>Add to Bag</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -87,7 +81,7 @@ const styles = StyleSheet.create({
     lineHeight: 25,
   },
   heartLiked: {
-    color: '#463cff',
+    color: '#e53935',
   },
   image: {
     width: '100%',
@@ -115,20 +109,14 @@ const styles = StyleSheet.create({
     fontSize: 9,
     color: '#6d7480',
     lineHeight: 12,
-    marginBottom: 2,
-  },
-  metaRow: {
-    flexDirection: 'row',
-    alignItems: 'flex-start',
-    justifyContent: 'space-between',
-    gap: 4,
+    marginBottom: 4,
   },
   priceRow: {
     flexDirection: 'row',
     alignItems: 'center',
     flexWrap: 'wrap',
     gap: 3,
-    flex: 1,
+    marginBottom: 6,
   },
   price: {
     fontSize: 12,
@@ -145,12 +133,15 @@ const styles = StyleSheet.create({
     color: '#463cff',
     fontWeight: '700',
   },
-  tryBuyBtn: {
-    paddingTop: 1,
+  addBtn: {
+    backgroundColor: '#463cff',
+    borderRadius: 4,
+    paddingVertical: 7,
+    alignItems: 'center',
   },
-  tryBuyText: {
-    fontSize: 9,
-    color: '#463cff',
+  addBtnText: {
+    fontSize: 11,
+    color: '#fff',
     fontWeight: '700',
   },
 });
