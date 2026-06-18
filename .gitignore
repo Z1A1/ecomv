@@ -65,7 +65,8 @@ yarn-error.log
 
 # testing
 /coverage
-
+*.md
+!README.md
 # Yarn
 .yarn/*
 !.yarn/patches
